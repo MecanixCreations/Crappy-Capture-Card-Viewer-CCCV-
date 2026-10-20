@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display</title>
+    <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden; 
+        background-color: black;
+    }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <video id="john"></video>
+    <script>
+        var j = true
+        // Create an invisible, in-memory video element to stream the webcam into
+        const video = document.getElementById("john")
+        video.autoplay = true;
+        video.playsInline = true; // Required for mobile browsers
+
+        // Ideal configuration for high frame rate streaming
+        const constraints = {
+            video: {
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
+                frameRate: { ideal: 60 } // 
+            },
+            audio: true
+        };
+
+
+        async function startWebcam() {
+            try {
+                j = false
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                video.srcObject = stream;
+                
+            } catch (error) {
+                console.error("Error accessing the webcam: ", error);
+                alert("Could not access webcam. Make sure it supports 60FPS and permissions are granted.");
+            }
+        }
+
+
+        // Run setup
+        document.addEventListener("click", (event) => {
+            if (j == true){
+                startWebcam()
+            }
+    
+});
+        startWebcam();
+    </script>
+</body>
+</html>
